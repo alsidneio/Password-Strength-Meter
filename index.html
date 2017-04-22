@@ -1,0 +1,102 @@
+<!doctype HTML>
+<html>
+<head>
+  <title>Password Strength Meter</title>
+  <link rel="stylesheet" href="jquery-ui.css">
+  <script src="jquery.js"></script>
+  <script src="jquery-ui.js"></script>
+  <script>
+    $(document).ready(function(){
+        $("#password").keyup(function(){
+          checkPassword($("#password").val());
+        });
+    });
+    function checkPassword(password){
+   var strength=0;
+   if(password.length>=5){
+     strength++;
+     if(password.match(/[a-zA-Z]/)&& password.match(/[0-9]/)){
+       strength++;
+     };
+     if(password.match(/([!,@,#,$,%,^,&,*,?,_,~])/)){
+       strength++;
+     };
+     if(password.match(/(.*[!,@,#,$,%,^,&,*,_,~,?,].*[!,@,#,$,%,^,&,*,?,])/)){
+        strength++;
+        };
+   }
+  if(strength==0){
+    $("#meter").progressbar({value:20});
+    $(".ui-progressbar-value").css("background","red");
+    $("#result").html("For security reasons we require 5 characters Minimum").css("color","red");
+   }
+  else if(strength<3){
+     $("#meter").progressbar({value:40});
+     $(".ui-progressbar-value").css("background","orange");
+     $("#result").html("your password is weak sauce").css("color","red");
+   }
+  else if(strength==3) {
+    $("#meter").progressbar({value:70});
+    $(".ui-progressbar-value").css("background","yellow");
+    $("#result").html("Good").css("color","black");
+
+  }
+  else{
+    $("#meter").progressbar({value:100});
+    $(".ui-progressbar-value").css("background","green");
+    $("#result").html("STRONG!").css("color","green");
+  }
+
+  if (password.length==0){
+    $("#meter").progressbar({value:0});
+    $(".ui-progressbar-value").css("background","white");
+    $("#result").html("User did not enter a password");
+  }
+
+  }
+  </script>
+  <style>
+    #container{
+      width: 550px;
+      height:200px;
+      border: 2px solid maroon;
+      margin: 90px auto;
+      border-radius: 10px;
+    }
+    h2{
+      text-align: center;
+      color: maroon;
+      }
+    input{
+      width: 300px;
+      height: 40px;
+      border: 1px solid maroon;
+      border-radius: 5px;
+      font-size: 15px;
+      text-align: center;
+      margin-left: 120px;
+    }
+    #meter{
+      border: 1px solid maroon;
+      width: 300px;
+      height:15px;
+      margin: 20px auto;
+      border-radius:5px;
+
+    }
+    #result{
+      font-size: larger;
+      font-weight: bold;
+      margin-left: 120px;
+    }
+  </style>
+</head>
+<body>
+    <div id="container">
+      <h2>Password Strength Meter</h2>
+      <input id="password" type="password" placeholder="Enter your Password...">
+      <div id="meter"></div>
+      <span id="result"></span>
+    </div>
+</body>
+</html>
